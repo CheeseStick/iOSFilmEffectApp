@@ -16,6 +16,9 @@
 		BFEA62BE212D55EB00114402 /* FilmEffectUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = BFEA62BD212D55EB00114402 /* FilmEffectUITests.m */; };
 		BFEA62D1212D566500114402 /* VC_Main.m in Sources */ = {isa = PBXBuildFile; fileRef = BFEA62D0212D566500114402 /* VC_Main.m */; };
 		BFEA62D4212D56AA00114402 /* NC_Main.m in Sources */ = {isa = PBXBuildFile; fileRef = BFEA62D3212D56AA00114402 /* NC_Main.m */; };
+		BFEA62D8212D58E400114402 /* FE_EffectSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = BFEA62D7212D58E400114402 /* FE_EffectSettings.m */; };
+		BFEA62DB212D58F500114402 /* FE_EffectController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFEA62DA212D58F500114402 /* FE_EffectController.m */; };
+		BFEA62DE212E6B9900114402 /* VC_TestColorFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = BFEA62DD212E6B9900114402 /* VC_TestColorFilter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +57,12 @@
 		BFEA62D0212D566500114402 /* VC_Main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VC_Main.m; sourceTree = "<group>"; };
 		BFEA62D2212D56AA00114402 /* NC_Main.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NC_Main.h; sourceTree = "<group>"; };
 		BFEA62D3212D56AA00114402 /* NC_Main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NC_Main.m; sourceTree = "<group>"; };
+		BFEA62D6212D58E400114402 /* FE_EffectSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FE_EffectSettings.h; sourceTree = "<group>"; };
+		BFEA62D7212D58E400114402 /* FE_EffectSettings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FE_EffectSettings.m; sourceTree = "<group>"; };
+		BFEA62D9212D58F500114402 /* FE_EffectController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FE_EffectController.h; sourceTree = "<group>"; };
+		BFEA62DA212D58F500114402 /* FE_EffectController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FE_EffectController.m; sourceTree = "<group>"; };
+		BFEA62DC212E6B9900114402 /* VC_TestColorFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VC_TestColorFilter.h; sourceTree = "<group>"; };
+		BFEA62DD212E6B9900114402 /* VC_TestColorFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VC_TestColorFilter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +115,7 @@
 			children = (
 				BFEA6299212D55E900114402 /* AppDelegate.h */,
 				BFEA629A212D55E900114402 /* AppDelegate.m */,
+				BFEA62D5212D58B400114402 /* Image Controller */,
 				BFEA62CD212D561E00114402 /* Resources */,
 				BFEA62CB212D560800114402 /* View Controllers */,
 				BFEA62CC212D561000114402 /* Storyboards */,
@@ -136,6 +146,7 @@
 		BFEA62CB212D560800114402 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				BFEA62DF212E6B9D00114402 /* Tests */,
 				BFEA62D2212D56AA00114402 /* NC_Main.h */,
 				BFEA62D3212D56AA00114402 /* NC_Main.m */,
 				BFEA62CF212D566500114402 /* VC_Main.h */,
@@ -167,6 +178,26 @@
 				BFEA62A2212D55EB00114402 /* Assets.xcassets */,
 			);
 			path = Images;
+			sourceTree = "<group>";
+		};
+		BFEA62D5212D58B400114402 /* Image Controller */ = {
+			isa = PBXGroup;
+			children = (
+				BFEA62D6212D58E400114402 /* FE_EffectSettings.h */,
+				BFEA62D7212D58E400114402 /* FE_EffectSettings.m */,
+				BFEA62D9212D58F500114402 /* FE_EffectController.h */,
+				BFEA62DA212D58F500114402 /* FE_EffectController.m */,
+			);
+			path = "Image Controller";
+			sourceTree = "<group>";
+		};
+		BFEA62DF212E6B9D00114402 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				BFEA62DC212E6B9900114402 /* VC_TestColorFilter.h */,
+				BFEA62DD212E6B9900114402 /* VC_TestColorFilter.m */,
+			);
+			path = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -300,7 +331,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFEA62D1212D566500114402 /* VC_Main.m in Sources */,
+				BFEA62DB212D58F500114402 /* FE_EffectController.m in Sources */,
+				BFEA62D8212D58E400114402 /* FE_EffectSettings.m in Sources */,
 				BFEA62D4212D56AA00114402 /* NC_Main.m in Sources */,
+				BFEA62DE212E6B9900114402 /* VC_TestColorFilter.m in Sources */,
 				BFEA62A9212D55EB00114402 /* main.m in Sources */,
 				BFEA629B212D55E900114402 /* AppDelegate.m in Sources */,
 			);
