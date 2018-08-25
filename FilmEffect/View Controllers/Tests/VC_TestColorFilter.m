@@ -19,19 +19,18 @@
 @property (weak, nonatomic) IBOutlet UISlider *sliderRed;
 @property (weak, nonatomic) IBOutlet UISlider *sliderGreen;
 @property (weak, nonatomic) IBOutlet UISlider *sliderBlue;
+@property (weak, nonatomic) IBOutlet UISlider *sliderNoise;
 
 @property (weak, nonatomic) IBOutlet UIButton *btnRed;
 @property (weak, nonatomic) IBOutlet UIButton *btnGreen;
 @property (weak, nonatomic) IBOutlet UIButton *btnBlue;
-
-@property (weak, nonatomic) IBOutlet UIView *filterColorV;
 
 @end
 
 @implementation VC_TestColorFilter
 
 #pragma mark - 이펙트 관련 함수들
-- (CGContextRef)coreGraphicimageRefToRGBA8Context:(CGImageRef)imageRef CF_RETURNS_RETAINED {
+- (CGContextRef)CGGenerateRGBA8ContextFromImage:(CGImageRef)imageRef CF_RETURNS_RETAINED {
     CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB(); // image colorspace info
     NSAssert(colorSpaceRef, @"Cannot create RGB color space!");
     
@@ -71,7 +70,7 @@
 
 - (void)applyColorFilter {
     CGImageRef imgRef = [loadedImage CGImage];
-    CGContextRef imgContextRef = [self coreGraphicimageRefToRGBA8Context:imgRef];
+    CGContextRef imgContextRef = [self CGGenerateRGBA8ContextFromImage:imgRef];
     
     size_t img_w = CGImageGetWidth(imgRef);  // image width
     size_t img_h = CGImageGetHeight(imgRef); // image height
@@ -131,6 +130,60 @@
     free(imgBitmapData);
     free(editedImageBitmapData);
     CGContextRelease(imgContextRef);
+}
+
+- (void)applyNoise {
+    CGFloat noiseLevel = [self.sliderNoise value];
+
+    CGImageRef imgRef = [editedImage CGImage];
+    CGImageRef noiseRef = [self CGGenerateNoiseImage:[editedImage size] withFactor:noiseLevel];
+    
+    CGContextRef imgContextRef = [self CGGenerateRGBA8ContextFromImage:imgRef];
+    
+    CGRect rect = CGRectMake(0.0f, 0.0f, [editedImage size].width, [editedImage size].height);
+    
+    CGContextSetBlendMode(imgContextRef, kCGBlendModeOverlay);
+    CGContextDrawImage(imgContextRef, rect, noiseRef);
+    CGContextSetBlendMode(imgContextRef, kCGBlendModeNormal);
+    
+    unsigned char *imgBitmapData = (unsigned char *)CGBitmapContextGetData(imgContextRef);
+    NSAssert(imgBitmapData, @"Cannot get image bitmap data to memory!");
+    
+    editedImage = [self createImageWithRGBA8Bitmap:imgBitmapData withCGSize:[editedImage size]];
+    
+    free(imgBitmapData);
+    CGContextRelease(imgContextRef);
+    CGImageRelease(noiseRef);
+}
+
+- (CGImageRef)CGGenerateNoiseImage:(CGSize)size withFactor:(CGFloat)factor CF_RETURNS_RETAINED {
+    unsigned char *noise = (unsigned char *)calloc(size.width * size.height, sizeof(unsigned char));
+    NSAssert(noise, @"Cannot allocate memory for noise!");
+    
+    for(int i = 0; i < (size.width * size.height); i++) { // generate noise
+        noise[i] = (unsigned char)((arc4random() % 128) * factor) + 128;
+    }
+    
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
+    NSAssert(colorSpace, @"Cannot create color space!");
+    
+    CGContextRef context = CGBitmapContextCreate(noise,       //data
+                                                 size.width,  // width
+                                                 size.height, // height
+                                                 8,           // bits per component
+                                                 fabs(size.width), // bytes per row
+                                                 colorSpace,       // colorspace
+                                                 kCGImageAlphaNone // image info (color sequence)
+                                                 );
+    NSAssert(context, @"Cannot create bitmap context!");
+
+    CGImageRef image = CGBitmapContextCreateImage(context);
+    
+    CGContextRelease(context);
+    CGColorSpaceRelease(colorSpace);
+    free(noise);
+    
+    return image;
 }
 
 - (UIImage *)createImageWithRGBA8Bitmap:(unsigned char *)data withCGSize:(CGSize)size {
@@ -206,19 +259,19 @@
 - (IBAction)btnRedPressed:(UIButton *)sender {
 //    NSLog(@"Resetting red slider value to 0.5");
     [self.sliderRed setValue:0.5f animated:YES];
-    [self updateFilterColorView];
+    [self updateFilteredImageView];
 }
 
 - (IBAction)btnGreenPressed:(UIButton *)sender {
 //    NSLog(@"Resetting green slider value to 0.5");
     [self.sliderGreen setValue:0.5f animated:YES];
-    [self updateFilterColorView];
+    [self updateFilteredImageView];
 }
 
 - (IBAction)btnBluePressed:(UIButton *)sender {
 //    NSLog(@"Resetting blue slider value to 0.5");
     [self.sliderBlue setValue:0.5f animated:YES];
-    [self updateFilterColorView];
+    [self updateFilteredImageView];
 }
 
 #pragma mark - 버튼 액션 (이미지 관련)
@@ -255,17 +308,22 @@
 #pragma mark - 슬라이더 액션
 -(IBAction)sliderRedValueChanged:(UISlider *)sender {
 //    NSLog(@"Red slider value has changed! - %.2f", sender.value);
-    [self updateFilterColorView];
+    [self updateFilteredImageView];
 }
 
 -(IBAction)sliderGreenValueChanged:(UISlider *)sender {
 //    NSLog(@"Green slider value has changed! - %.2f", sender.value);
-    [self updateFilterColorView];
+    [self updateFilteredImageView];
 }
 
 -(IBAction)sliderBlueValueChanged:(UISlider *)sender {
 //    NSLog(@"Blue slider value has changed! - %.2f", sender.value);
-    [self updateFilterColorView];
+    [self updateFilteredImageView];
+}
+
+-(IBAction)sliderNoiseLevelValueChanged:(UISlider *)sender {
+    //    NSLog(@"Noise level slider value has changed! - %.2f", sender.value);
+    [self updateFilteredImageView];
 }
 
 #pragma mark - 이미지 피커 Delegate
@@ -283,14 +341,10 @@
 }
 
 #pragma mark - 기타
-- (void)updateFilterColorView {
-    [self.filterColorV setBackgroundColor:[UIColor colorWithRed:[self.sliderRed value] green:[self.sliderGreen value] blue:[self.sliderBlue value] alpha:1.0f]];
-    [self updateFilteredImageView];
-}
-
 - (void)updateFilteredImageView {
     if(loadedImage) {
         [self applyColorFilter];
+        [self applyNoise];
         [self.mainImageV setImage:editedImage];
     } else {
         [self.mainImageV setImage:nil];

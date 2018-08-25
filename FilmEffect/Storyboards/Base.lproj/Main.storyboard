@@ -57,6 +57,18 @@
                                     <action selector="btnGreenPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YRf-dC-TBX"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OVh-eK-e9f">
+                                <rect key="frame" x="16" y="569" width="46" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <state key="normal" title="B">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnBluePressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jPF-hB-hAW"/>
+                                </connections>
+                            </button>
                             <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="4g6-Ku-vmV">
                                 <rect key="frame" x="68" y="472" width="293" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -90,18 +102,13 @@
                                     <action selector="btnSaveImagePressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LzI-Pu-v2F"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OVh-eK-e9f">
-                                <rect key="frame" x="16" y="569" width="46" height="44"/>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="NCv-2a-lgA">
+                                <rect key="frame" x="14" y="621" width="347" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <state key="normal" title="B">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
                                 <connections>
-                                    <action selector="btnBluePressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jPF-hB-hAW"/>
+                                    <action selector="sliderNoiseLevelValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="7qF-GH-ylD"/>
                                 </connections>
-                            </button>
+                            </slider>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -114,6 +121,7 @@
                         <outlet property="mainImageV" destination="ig3-CW-m9o" id="Xf7-m6-R3g"/>
                         <outlet property="sliderBlue" destination="KTl-Fp-JoE" id="mfM-zQ-dom"/>
                         <outlet property="sliderGreen" destination="xvF-FM-KjZ" id="vS1-FD-g6a"/>
+                        <outlet property="sliderNoise" destination="NCv-2a-lgA" id="ekk-8y-Fcu"/>
                         <outlet property="sliderRed" destination="4g6-Ku-vmV" id="n1T-0h-gZo"/>
                     </connections>
                 </viewController>
